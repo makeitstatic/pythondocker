@@ -1,0 +1,30 @@
+<html>
+  <!-- Flask handles the rendering to html -->
+  <!-- Flask provides a function called url_for(), 
+    which generates URLs using its internal mapping 
+    of URLs to view functions -->
+    <head>
+      {% if title %}
+      <title>{{ title }} - PythonDocker</title>
+      {% else %}
+      <title>Welcome to Python the Docker Blog</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>PythonDocker: 
+          <a href="{{ url_for('index') }}">Home</a>
+          <a href="{{ url_for('login') }}">Login</a>
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
