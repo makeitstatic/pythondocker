@@ -6,4 +6,9 @@ Run your virtual environment:
     venv\Scripts\activate
 
 Run the server with:
-$ flask run
+    (venv): $ flask run
+
+Migrate data changes to app:    
+    flask db migrate -m "posts table"
+    flask db upgrade
+
