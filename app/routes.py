@@ -9,6 +9,8 @@ from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
 from flask.helpers import url_for
+from app import db
+from app.forms import RegistrationForm
 
 
 
@@ -61,13 +63,9 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index"'))
+    return redirect(url_for('index'))
 
 
-from app import db
-from app.forms import RegistrationForm
-
-# ...
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -83,4 +81,3 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-    
