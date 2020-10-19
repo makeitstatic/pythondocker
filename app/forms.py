@@ -12,7 +12,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 
-
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -30,7 +29,6 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
-
 
 
 class EditProfileForm(FlaskForm):

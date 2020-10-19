@@ -8,7 +8,8 @@ from hashlib import md5
 # !!!!    Every time the database is modified it is necessary to generate a database migration.
 # !!!!   (venv) $ flask db migrate -m "new fields in user model"
 # !!!!    (venv) $ flask db upgrade
-# !!!!  
+# !!!!
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +38,7 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
+
 
 @login.user_loader
 def load_user(id):
