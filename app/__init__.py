@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from config import Config
 
+# "export FLASK_DEBUG=1" in environment for debug mode
+
 # initialize app instance
 app = Flask(__name__)
 
