@@ -1,10 +1,8 @@
-from app import routes, models
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from config import Config
 from flask_login import LoginManager
-
+from config import Config
 
 # initialize app instance
 app = Flask(__name__)
@@ -22,3 +20,5 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 # 'login' refers to url_for() in routes.py
 login.login_view = 'login'
+
+from app import routes, models
