@@ -1,1 +1,1 @@
-FLASK_APP=pythondocker.py
+FLASK_APP=pythondocker
