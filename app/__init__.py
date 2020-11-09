@@ -23,4 +23,4 @@ login = LoginManager(app)
 # 'login' refers to url_for() in routes.py
 login.login_view = 'login'
 
-from app import routes, models
+from app import routes, models, errors
