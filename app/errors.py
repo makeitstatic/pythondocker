@@ -5,6 +5,7 @@ from app import app, db
 def not_found_error(error):
     return render_template('404.html'), 404
 
+#  To make sure any failed database sessions do not interfere with any database accesses triggered by the template, I issue a session rollback. This resets the session to a clean state.
 @app.errorhandler(500)
 def internal_error(error):
     db.session.rollback()
