@@ -10,6 +10,11 @@ from hashlib import md5
 # !!!!    (venv) $ flask db upgrade
 # !!!!
 
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +27,14 @@ class User(UserMixin, db.Model):
 
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+
+    followed = db.relationship(
+    'User', secondary=followers,
+    primaryjoin=(followers.c.follower_id == id),
+    secondaryjoin=(followers.c.followed_id == id),
+    backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+
+
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -39,6 +52,24 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
 
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        return self.followed.filter(
+            followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        return Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)).filter(
+                followers.c.follower_id == self.id).order_by(
+                    Post.timestamp.desc())
+
 
 @login.user_loader
 def load_user(id):
@@ -53,3 +84,5 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+
